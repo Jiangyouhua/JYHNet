@@ -10,7 +10,7 @@ import UIKit
 import JYHNet
 
 class ViewController: UIViewController, UITableViewDataSource {
-    private var data: [CategoryData]?
+    private var data: [Category]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +19,7 @@ class ViewController: UIViewController, UITableViewDataSource {
         view.addSubview(tableView)
         
         let address = "https://muutr.com/back"
-        JYHNet.shared.get(address, dic: ["table":"category", "handle": "get"]) { [weak self] (result: Result<Category, JYHNet.NetError>) in
+        JYHNet.shared.get(address, dic: ["table":"category", "handle": "get"]) { [weak self] (result: Result<Back<Category>, JYHNet.NetError>) in
             switch result {
             case .success(let success):
                 if success.status != 0 {
@@ -57,7 +57,7 @@ class ViewController: UIViewController, UITableViewDataSource {
     
 }
 
-struct CategoryData: Codable {
+struct Category: Codable {
     var id: String?
     var name: String?
     var info: String?
@@ -69,9 +69,9 @@ struct CategoryData: Codable {
     var status: String?
 }
 
-struct Category: Codable {
+struct Back<T: Codable>: Codable {
     var status: Int
-    var data: [CategoryData]
+    var data: [T]
     
     enum CodingKeys: String, CodingKey {
         case status = "Status"
