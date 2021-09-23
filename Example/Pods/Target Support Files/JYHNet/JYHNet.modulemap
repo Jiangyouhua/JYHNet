@@ -1,0 +1,6 @@
+framework module JYHNet {
+  umbrella header "JYHNet-umbrella.h"
+
+  export *
+  module * { export * }
+}
